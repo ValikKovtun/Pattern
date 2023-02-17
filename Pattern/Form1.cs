@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Pattern
 {
     public partial class Form1 : Form
@@ -87,10 +89,12 @@ namespace Pattern
             Person p2 = p1.ShallowCopy();
             Person p3 = p1.DeepCopy();
 
-            label1.Text = "Початкові значення p1, p2:\np1: ";
+            label1.Text = "Початкові значення p1, p2 та p3:\np1: ";
             DisplayValues(p1, label1);
             label1.Text += "\np2:";
             DisplayValues(p2, label1);
+            label1.Text += "\np3:";
+            DisplayValues(p3, label1);
 
 
             p1.Age = 23;
@@ -104,7 +108,7 @@ namespace Pattern
 
             label3.Text = "Значення p1 та p3:\np1: ";
             DisplayValues(p1, label3);
-            label2.Text += "\np3:";
+            label3.Text += "\np3:";
             DisplayValues(p3, label3);
         }
 
@@ -114,11 +118,38 @@ namespace Pattern
             label.Text += "\nID#:" + p.IdInfo.IdNumber;
         }
 
+        public sealed class Singleton
+        {
+            private Singleton() {}
 
+            private static Singleton _instance;
+
+            public static Singleton GetInstance()
+            {
+                if (_instance == null)
+                {
+                    _instance = new Singleton();
+                }
+                return _instance;
+            }
+
+            // Логіка яка має бути виконана в цьому екземлярі
+            public void someBusinessLogic()
+            {
+                //...
+            }
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            Singleton s1 = Singleton.GetInstance();
+            Singleton s2 = Singleton.GetInstance();
 
+            if (s1 == s2)
+                label1.Text = "Синглтон працює, обидві змінні містять один екземпляр.";
+            else
+                label1.Text = "Синглтон не працює, обидві змінні містять різні екземпляр.";
+            label2.Text = label3.Text = " ";
         }
     }
 }
